@@ -42,9 +42,6 @@ func createProuct(w http.ResponseWriter, r *http.Request) {
 	handelCors(w)
 	handelOption(w, r)
 
-	if r.Method == "POST" {
-		http.Error(w, "Please hit the post method", 400)
-	}
 	var newProduct Product
 
 	decoder := json.NewDecoder(r.Body)
@@ -61,13 +58,6 @@ func createProuct(w http.ResponseWriter, r *http.Request) {
 	productList = append(productList, newProduct)
 
 	sendData(w, newProduct, 201)
-}
-
-func handelCors(w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
 }
 
 func handelOption(w http.ResponseWriter, r *http.Request) {
@@ -91,11 +81,11 @@ func main() {
 
 	mux.Handle("GET /hello", http.HandlerFunc(helloHandler)) // route
 
-	mux.HandleFunc("GET /about", http.HandlerFunc(aboutHandler))
-	mux.HandleFunc("GET /products", http.HandlerFunc(getProducts))
-	mux.HandleFunc("POST /create-product", http.HandlerFunc(createProuct))
-	fmt.Println("Server is running on port 3001")
+	mux.Handle("GET /about", http.HandlerFunc(aboutHandler))
+	mux.Handle("GET /products", http.HandlerFunc(getProducts))
+	mux.Handle("POST /create-product", http.HandlerFunc(createProuct))
 
+	fmt.Println("Server is running on port 3001")
 	err := http.ListenAndServe(":3001", mux) // Start the server on port 3001
 
 	if err != nil {
@@ -122,4 +112,20 @@ func init() {
 	}
 
 	productList = append(productList, prd1, prd2)
+}
+
+func handelCorsMiddleware(next http.Handler) http.Handler {
+
+	handelCors := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("Content-Type", "application/json")
+
+		next.ServeHTTP(w, r)
+	}
+
+	handelr := http.HandlerFunc(handelCors)
+	
+	return handelr
 }
