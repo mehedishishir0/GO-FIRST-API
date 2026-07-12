@@ -7,7 +7,8 @@ import (
 
 func Hudai(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    log.Println("ami middleware hudai")
-	next.ServeHTTP(w,r)
+		log.Println("ami middleware hudai")
+		next.ServeHTTP(w, r)
+
 	})
-}
+}   
