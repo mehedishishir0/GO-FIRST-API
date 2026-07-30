@@ -43,10 +43,12 @@ func Update(product Product) {
 func Delete(productID int) {
 	var tempList []Product
 
-	for i, product := range productList {
+	
 
-		if product.ID != product.ID {
-			tempList[i] = product
+	for _, product := range productList {
+
+		if product.ID != productID {
+			tempList = append(tempList, product)
 		}
 	}
 	productList = tempList
