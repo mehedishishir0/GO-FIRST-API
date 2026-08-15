@@ -27,6 +27,7 @@ func (u User) Store() User {
 func Find(email, pass string) *User {
 	
 	fmt.Println(email)
+	
 	fmt.Println(pass)
 	for _, u := range users {
 

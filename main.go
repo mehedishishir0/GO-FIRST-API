@@ -1,36 +1,25 @@
 package main
 
-import (
-	// "ecommerce/cmd"
-	// "bytes"
-	// "encoding/base64"
-	"encoding/base64"
-	"fmt"
-)
+import "ecommerce/cmd"
 
 type Shishir int
 
 func main() {
 
-	var s string 
+	cmd.Serv()
 
-	s = "b"
+	// 	jwt, err := util.CreateJWT("secret", util.Payload{
+	// 		Sub:          "43",
+	// 		FirstName:    "John",
+	// 		LastName:     "Doe",
+	// 		Email:        "john.doe@example.com",
+	// 		IsShopeOwner: true,
+	// 	})
 
-	byteArr := []byte(s)
+	// 	if err != nil {
+	// 		fmt.Println("Error creating JWT:", err)
+	// 		return
+	// 	}
 
-	fmt.Println(byteArr)
-	fmt.Println(s)
-	
-	enc := base64.URLEncoding
-
-	enc = enc.WithPadding(base64.NoPadding)
-
-	b64Str := enc.EncodeToString(byteArr)
-
-	fmt.Println(b64Str)
-
-	// base64.URLEncoding.WithPadding(base64.NoPadding)
-
-
-	// cmd.Serv()
+	// 	fmt.Println("Generated JWT:", jwt)
 }
