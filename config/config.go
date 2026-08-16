@@ -15,17 +15,15 @@ type Config struct {
 	JWTSecret   string
 }
 
-
-var configurations Config 
-
+var configurations *Config
 
 func loadConfig() {
-   err :=  godotenv.Load()
+	err := godotenv.Load()
 
-   if err != nil{
-	fmt.Println("faild to load the env file",err)
-	os.Exit(1)
-   }
+	if err != nil {
+		fmt.Println("faild to load the env file", err)
+		os.Exit(1)
+	}
 
 	verson := os.Getenv("VERSION")
 	if verson == "" {
@@ -45,13 +43,12 @@ func loadConfig() {
 		fmt.Println("http port name is required")
 		os.Exit(1)
 	}
-    portInt, err := strconv.ParseInt(httpPort, 10, 64)
+	portInt, err := strconv.ParseInt(httpPort, 10, 64)
 
-	if  err  != nil{
+	if err != nil {
 		fmt.Println("port must be number")
-				os.Exit(1)
+		os.Exit(1)
 	}
-
 
 	JWTSecret := os.Getenv("JWT_SECRET")
 	if JWTSecret == "" {
@@ -59,8 +56,7 @@ func loadConfig() {
 		os.Exit(1)
 	}
 
-
-	configurations = Config{
+	configurations = &Config{
 		Version:     verson,
 		ServiceName: serviceName,
 		HttpPort:    int(portInt),
@@ -69,8 +65,10 @@ func loadConfig() {
 
 }
 
+func GetConfig() *Config {
+	if configurations == nil {
 
-func GetConfig() Config{
-	loadConfig()
+		loadConfig()
+	}
 	return configurations
 }
