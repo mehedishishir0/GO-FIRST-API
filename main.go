@@ -1,8 +1,8 @@
 package main
 
-import "ecommerce/cmd"
-
-type Shishir int
+import (
+	"ecommerce/cmd"
+)
 
 func main() {
 

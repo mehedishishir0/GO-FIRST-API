@@ -31,7 +31,7 @@ func (m *Middlewares) AuthMiddleware(next http.Handler) http.Handler {
 		fmt.Println(headerArry)
 
 		accessToken := headerArry[1]
-
+   
 		tokenParts := strings.Split(accessToken, ".")
 		if len(tokenParts) != 3 {
 			http.Error(w, "Invalid JWT format", http.StatusUnauthorized)
