@@ -1,7 +1,7 @@
 package product
 
 import (
-	"ecommerce/database"
+
 	"ecommerce/util"
 	"net/http"
 )
@@ -13,6 +13,6 @@ func (h *Handler) GetProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	util.SendData(w, database.List(), 200)
+	util.SendData(w, h.productRepo.List(), 200)
 
 }

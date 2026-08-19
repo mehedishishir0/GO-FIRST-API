@@ -1,8 +1,6 @@
 package user
 
 import (
-	"ecommerce/config"
-	"ecommerce/database"
 	"ecommerce/util"
 	"encoding/json"
 	"net/http"
@@ -21,12 +19,16 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&reqLogin)
 
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		util.SendError(w, http.StatusBadRequest, "Invalid body")
 		return
 	}
 
-	
-	usr := database.Find(reqLogin.Email, reqLogin.Password)
+	usr, err := h.userRepo.Find(reqLogin.Email, reqLogin.Password)
+
+	if err != nil {
+		http.Error(w, "Invalid credentials", http.StatusBadRequest)
+		return
+	}
 
 	if usr == nil {
 		http.Error(w, "Invalid credentials", http.StatusBadRequest)
@@ -41,10 +43,8 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		IsShopeOwner: usr.IsShopeOwner,
 	})
 
-	cnf := config.GetConfig()
-	
-   accessToken, err := util.CreateJWT(cnf.JWTSecret, util.Payload{
-		Sub:      usr.ID,
+	accessToken, err := util.CreateJWT(h.cnf.JWTSecret, util.Payload{
+		Sub:          usr.ID,
 		FirstName:    usr.FirstName,
 		LastName:     usr.LastName,
 		Email:        usr.Email,
