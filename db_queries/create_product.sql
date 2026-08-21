@@ -3,7 +3,7 @@ CREATE TABLE products (
     title VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
     price DOUBLE PRECISION NOT NULL
-    img_rl TEXT
+    img_url TEXT
     created_at  TIMESTAMPZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

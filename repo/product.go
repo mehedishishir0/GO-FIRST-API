@@ -9,10 +9,10 @@ import (
 
 type Product struct {
 	ID          int     `json:"id" db:"id"`
-	Title       string  `json:"name" db:"title"`
+	Title       string  `json:"title" db:"title"`
 	Price       float64 `json:"price" db:"price"`
 	Description string  `json:"description" db:"description"`
-	ImageURL    string  `json:"imageUrl" db:"img_rl"`
+	ImageURL    string  `json:"imageUrl" db:"img_url"`
 }
 
 type ProductRepo interface {
@@ -37,7 +37,7 @@ func (r *productRepo) Create(p Product) (*Product, error) {
 	query := ` INSERT INTO products (
 			title,
 			price,
-			img_rl,
+			img_url,
 			description
 		)
 		VALUES (
@@ -94,10 +94,11 @@ func (r *productRepo) List() ([]*Product, error) {
 
 func (r *productRepo) Update(p Product) (*Product, error) {
 
-	query := "UPDATE  products SET title=$1, description=$2, price=$3, img_rl=$4 WHERE id = $5  "
+	query := "UPDATE  products SET title=$1, description=$2, price=$3, img_url=$4 WHERE id = $5  "
 
-	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImageURL)
+	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImageURL, p.ID)
 	err := row.Err()
+	
 	if err != nil {
 		return nil, err
 	}
