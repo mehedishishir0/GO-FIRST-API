@@ -1,0 +1,4 @@
+DELETE FROM users 
+where id = 14
+
+TRUNCATE TABLE users RESTART IDENTITY;

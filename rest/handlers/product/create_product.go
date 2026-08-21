@@ -29,7 +29,6 @@ func (h *Handler) CreateProuct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	createdProduct, err := h.productRepo.Create(repo.Product{
-		
 		Title: newProduct.Title,
 		Description: newProduct.Description,
 		ImageURL: newProduct.ImageURL,
@@ -37,6 +36,7 @@ func (h *Handler) CreateProuct(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil{
 		http.Error(w, "Internal Server error ", http.StatusInternalServerError)
+		return
 	}
 
 	util.SendData(w, createdProduct, 201)
