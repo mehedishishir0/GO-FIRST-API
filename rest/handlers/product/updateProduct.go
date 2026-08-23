@@ -11,7 +11,7 @@ import (
 
 type ReqUpdateProduct struct {
 	ID          int     `json:"id"`
-	Title       string  `json:"name"`
+	Title       string  `json:"title"`
 	Price       float64 `json:"price"`
 	Description string  `json:"description"`
 	ImageURL    string  `json:"imageUrl"`
@@ -41,17 +41,18 @@ func (h *Handler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
- _, err =	h.productRepo.Update(repo.Product{
+	_, err = h.productRepo.Update(repo.Product{
 		ID:          pID,
 		Title:       newProduct.Title,
 		Description: newProduct.Description,
 		Price:       newProduct.Price,
-		ImageURL:  newProduct.ImageURL,
+		ImageURL:    newProduct.ImageURL,
 	})
 
 	if err != nil {
-		util.SendError(w, http.StatusInternalServerError , "internel server error")
+		util.SendError(w, http.StatusInternalServerError, err.Error())
+		return
 	}
 
-	util.SendData(w, "Successfully updated prodcut", 201)
+	util.SendData(w, newProduct, 201)
 }

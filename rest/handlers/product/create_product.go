@@ -8,7 +8,7 @@ import (
 )
 
 type ReqCreateProduct struct {
-	Title       string  `json:"name"`
+	Title       string  `json:"title"`
 	Price       float64 `json:"price"`
 	Description string  `json:"description"`
 	ImageURL    string  `json:"imageUrl"`
@@ -35,7 +35,7 @@ func (h *Handler) CreateProuct(w http.ResponseWriter, r *http.Request) {
 		Price: newProduct.Price,
 	})
 	if err != nil{
-		http.Error(w, "Internal Server error ", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
