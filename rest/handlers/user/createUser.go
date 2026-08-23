@@ -1,14 +1,13 @@
 package user
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/util"
 	"encoding/json"
 	"net/http"
 )
 
 type ReqUser struct {
-	
 	FirstName    string `json:"firstName"`
 	LastName     string `json:"lastName"`
 	Email        string `json:"email"`
@@ -24,21 +23,19 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&newUser)
 
 	if err != nil {
-	 util.SendError(w, http.StatusBadGateway, "invalid req body")
+		util.SendError(w, http.StatusBadGateway, "invalid req body")
 		return
 	}
 
-	usr, err := h.userRepo.Create(repo.User{
-		FirstName: newUser.FirstName,
-		Email: newUser.Email,
-		Password: newUser.Password,
+	usr, err := h.svc.Create(domain.User{
+		FirstName:    newUser.FirstName,
+		Email:        newUser.Email,
+		Password:     newUser.Password,
 		IsShopeOwner: newUser.IsShopeOwner,
-		
 	})
-      if err != nil{
+	if err != nil {
 		util.SendError(w, http.StatusInternalServerError, "Internal server error")
-	  }
+	}
 
-
-	util.SendData(w,  usr, 201)
+	util.SendData(w, usr, 201)
 }
