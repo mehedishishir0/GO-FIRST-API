@@ -6,7 +6,7 @@ import (
 )
 
 type Service interface {
-	userHandler.Service
+	userHandler.Service //embedding
 }
 
 type UserRepo interface {

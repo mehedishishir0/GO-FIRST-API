@@ -1,9 +1,10 @@
 package product
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/util"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -14,7 +15,6 @@ type ReqCreateProduct struct {
 	ImageURL    string  `json:"imageUrl"`
 }
 
-
 func (h *Handler) CreateProuct(w http.ResponseWriter, r *http.Request) {
 
 	var newProduct ReqCreateProduct
@@ -24,17 +24,18 @@ func (h *Handler) CreateProuct(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&newProduct)
 
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		fmt.Println("JSON DECODE ERROR:", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	createdProduct, err := h.productRepo.Create(repo.Product{
-		Title: newProduct.Title,
+	createdProduct, err := h.svc.Create(domain.Product{
+		Title:       newProduct.Title,
 		Description: newProduct.Description,
-		ImageURL: newProduct.ImageURL,
-		Price: newProduct.Price,
+		ImageURL:    newProduct.ImageURL,
+		Price:       newProduct.Price,
 	})
-	if err != nil{
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

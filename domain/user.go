@@ -1,5 +1,6 @@
 package domain
 
+// model or entity 
 
 type User struct {
 	ID           int    `json:"id" db:"id"`

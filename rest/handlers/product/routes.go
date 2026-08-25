@@ -2,8 +2,8 @@ package product
 
 import (
 	
-	middleware "ecommerce/rest/middlewares"
 	"net/http"
+	middleware "ecommerce/rest/middlewares"
 )
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux, manager *middleware.Manager) {

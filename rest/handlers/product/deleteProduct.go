@@ -15,11 +15,12 @@ func (h *Handler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Please give me a valid product id ", 400)
 		return
 	}
-	  err = h.productRepo.Delete(pID)
+
+	err = h.svc.Delete(pID)
 
 	if err != nil {
 		http.Error(w, "Internal server error ", 500)
-		return 
+		return
 	}
 
 	util.SendData(w, "Successfully deleted prodcut", 201)

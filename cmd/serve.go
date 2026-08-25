@@ -3,6 +3,7 @@ package cmd
 import (
 	"ecommerce/config"
 	"ecommerce/infra/db"
+	"ecommerce/product"
 	"ecommerce/repo"
 	"ecommerce/rest"
 	productHandler "ecommerce/rest/handlers/product"
@@ -16,7 +17,14 @@ import (
 func Serv() {
 	cnf := config.GetConfig()
 
-	dbCon, err := db.NewConnection()
+	dbCon, err := db.NewConnection(cnf.DB)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	err = db.MigrateDB(dbCon, "./migrations")
 
 	if err != nil {
 		fmt.Println(err)
@@ -29,11 +37,13 @@ func Serv() {
 
 	//domains
 	userService := user.NewService(userRepo)
+	productSvc := product.NewService(productRepo)
 
+	// middlewares
 	middlewares := middleware.NewMiddlewares(cnf)
 
-	productHandler := productHandler.NewHandler(middlewares, productRepo)
-
+	// handlers
+	productHandler := productHandler.NewHandler(middlewares, productSvc)
 	userHandler := userHandler.NewHandler(userService, cnf)
 
 	server := rest.NewServer(cnf, productHandler, userHandler)
