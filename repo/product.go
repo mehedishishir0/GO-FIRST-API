@@ -78,7 +78,6 @@ func (r *productRepo) List(page, limit int64) ([]*domain.Product, error) {
 
 	err := r.db.Select(&prdlist, query, limit, offset)
 
-	fmt.Println("this is list", prdlist)
 
 	if err != nil {
 		return nil, err
