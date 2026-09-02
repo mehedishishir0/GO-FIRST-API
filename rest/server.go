@@ -2,6 +2,7 @@ package rest
 
 import (
 	"ecommerce/config"
+	"ecommerce/rest/handlers/category"
 	"ecommerce/rest/handlers/product"
 	"ecommerce/rest/handlers/user"
 	middleware "ecommerce/rest/middlewares"
@@ -12,16 +13,18 @@ import (
 )
 
 type Server struct {
-	conf           *config.Config
-	productHandler *product.Handler
-	userHandler    *user.Handler
+	conf            *config.Config
+	productHandler  *product.Handler
+	userHandler     *user.Handler
+	categoryHandler *category.Handler
 }
 
-func NewServer(cnf *config.Config, productHandler *product.Handler, userHandler *user.Handler) *Server {
+func NewServer(cnf *config.Config, productHandler *product.Handler, userHandler *user.Handler, categoryHandler *category.Handler) *Server {
 	return &Server{
 		conf:           cnf,
 		productHandler: productHandler,
 		userHandler:    userHandler,
+		categoryHandler: categoryHandler,
 	}
 }
 

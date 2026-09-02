@@ -14,7 +14,7 @@ type ReqCreateCategory struct {
 	ImageURL    string `json:"imageUrl" db:"img_url"`
 }
 
-func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) createCategory(w http.ResponseWriter, r *http.Request) {
 	var newCategory ReqCreateCategory
 
 	decoder := json.NewDecoder(r.Body)
