@@ -50,31 +50,6 @@ func (h *Handler) GetProducts(w http.ResponseWriter, r *http.Request) {
 		cnt = cnt1
 	}()
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		cnt1, err := h.svc.Count()
-
-		if err != nil {
-			util.SendError(w, http.StatusInternalServerError, "sfdfds")
-		}
-		cnt = cnt1
-
-	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-
-		cnt1, err := h.svc.Count()
-
-		if err != nil {
-			util.SendError(w, http.StatusInternalServerError, "sfdfds")
-		}
-		cnt = cnt1
-
-	}()
-
 	if err != nil {
 		http.Error(w, "internal server error", 400)
 		return

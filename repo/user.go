@@ -86,3 +86,17 @@ func (r userRepo) Find(email, pass string) (*domain.User, error) {
 
 	return &user, nil
 }
+
+func (r userRepo) List() ([]*domain.User, error){
+	var users []*domain.User
+
+	query := `SELECT id, first_name, last_name, email, password, is_shop_owner FROM users order by id ASC`
+
+	err := r.db.Select(&users, query)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
